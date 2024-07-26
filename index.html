@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Nao16xd</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">git
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おみくじ</title>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.12/dist/vuetify.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app" v-cloak>
+        <v-app>
+            <v-main>
+                <v-container fluid>
+                    <v-row justify="center">
+                        <v-col cols="12" md="8" lg="6">
+                            <v-card class="pa-4" elevation="5">
+                                <div class="text-center">
+                                    <h1 class="yellow--text">あなたの今日の運勢は・・・？</h1>
+                                    <v-btn color="yellow darken-2" dark @click="randomResult">今日の運勢を見る</v-btn>
+                                    <div v-if="random !== null" class="mt-4" style="font-size: 40px;">
+                                        あなたの今日の運勢は<span :style="{ color: luckycolor[random] }">{{ unnsei[random] }}</span>です！
+                                    </div>
+                                </div>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+
+                    <v-row justify="center" class="mt-6">
+                        <v-col cols="12" md="8" lg="6">
+                            <v-card class="pa-4" elevation="5">
+                                <v-container>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <h2>過去の結果</h2>
+                                            <v-list v-if="pastResults.length > 0">
+                                                <v-list-item v-for="(result, index) in pastResults" :key="index">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{ result }}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                            <v-alert v-else>No past results yet.</v-alert>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.12/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: {
+                unnsei: [
+                    '大吉', '中吉', '小吉', '吉', '凶', '大凶'
+                ],
+                luckycolor: [
+                    'red', 'blue', 'green', 'violet', 'pink', 'indigo', 'lime'
+                ],
+                random: null,
+                pastResults: [] 
+            },
+            methods: {
+                randomResult: function() {
+                    this.random = Math.floor(Math.random() * this.unnsei.length);
+                    let result = `${this.getTodayDate()} の運勢は ${this.unnsei[this.random]} でした！`;
+                    this.pastResults.unshift(result); 
+                    this.pastResults = this.pastResults.slice(0, 5); 
+                },
+                getTodayDate: function() {
+                    let today = new Date();
+                    let year = today.getFullYear();
+                    let month = today.getMonth() + 1;
+                    let day = today.getDate();
+                    return `${year}/${month}/${day}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
